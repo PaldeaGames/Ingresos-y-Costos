@@ -725,7 +725,7 @@
     const y = chile.getFullYear();
     const m = String(chile.getMonth() + 1).padStart(2, '0');
     const d = String(chile.getDate()).padStart(2, '0');
-    return y + '-' + m + '-' + d;
+    return d + '/' + m + '/' + y;
   }
 
   function setToday(id) {
@@ -742,14 +742,15 @@
   }
 
   function guardar(tab) {
-    let record = { tipo: tab, fecha: new Date().toISOString() };
+    const fechaHoy = getTodayChile();
+    let record = { tipo: tab, fecha: fechaHoy };
     let desc = '', amount = 0, label = '';
 
     if (tab === 'ml') {
       const cant = Number(getVal('ml-cant')) || 1;
       const precio = Number(getVal('ml-precio')) || 0;
       record = { ...record,
-        fecha_venta: getVal('ml-fecha'),
+        fecha_venta: getVal('ml-fecha') || fechaHoy,
         orden: getVal('ml-orden'),
         tipo_pack: getVal('ml-tipo'),
         cantidad: cant,
@@ -767,7 +768,7 @@
       const cant = Number(getVal('ig-cant')) || 1;
       const precio = Number(getVal('ig-precio')) || 0;
       record = { ...record,
-        fecha_venta: getVal('ig-fecha'),
+        fecha_venta: getVal('ig-fecha') || fechaHoy,
         canal: getVal('ig-canal'),
         cliente: getVal('ig-cliente'),
         tipo_pack: getVal('ig-tipo'),
@@ -783,7 +784,7 @@
       label = record.canal || 'IG';
     } else if (tab === 'neg') {
       record = { ...record,
-        fecha_gasto: getVal('neg-fecha'),
+        fecha_gasto: getVal('neg-fecha') || fechaHoy,
         categoria: getVal('neg-cat'),
         descripcion: getVal('neg-desc'),
         tipo_costo: getVal('neg-tipo'),
@@ -797,7 +798,7 @@
       label = 'Negocio';
     } else if (tab === 'per') {
       record = { ...record,
-        fecha_gasto: getVal('per-fecha'),
+        fecha_gasto: getVal('per-fecha') || fechaHoy,
         categoria: getVal('per-cat'),
         descripcion: getVal('per-desc'),
         monto: Number(getVal('per-monto')) || 0,
