@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paldea Games — Registro</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f12;
+    --surface: #151820;
+    --surface2: #1c2030;
+    --border: #2a2f42;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --accent-ml: #3dd68c;
+    --accent-ig: #e879a0;
+    --accent-neg: #fb923c;
+    --accent-per: #a78bfa;
+    --accent-active: #3dd68c;
+    --input-bg: #0d0f12;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number] { -moz-appearance: textfield; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+  }
+
+  header {
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: 28px;
+  }
+
+  .logo {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  h1 span {
+    color: var(--accent-ml);
+  }
+
+  .tab-bar {
+    width: 100%;
+    max-width: 520px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .tab-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.18s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .tab-btn .tab-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .tab-btn .tab-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transition: color 0.18s;
+  }
+
+  .tab-btn.active-ml { border-color: var(--accent-ml); background: rgba(61,214,140,0.08); }
+  .tab-btn.active-ml .tab-label { color: var(--accent-ml); }
+  .tab-btn.active-ig { border-color: var(--accent-ig); background: rgba(232,121,160,0.08); }
+  .tab-btn.active-ig .tab-label { color: var(--accent-ig); }
+  .tab-btn.active-neg { border-color: var(--accent-neg); background: rgba(251,146,60,0.08); }
+  .tab-btn.active-neg .tab-label { color: var(--accent-neg); }
+  .tab-btn.active-per { border-color: var(--accent-per); background: rgba(167,139,250,0.08); }
+  .tab-btn.active-per .tab-label { color: var(--accent-per); }
+
+  .form-card {
+    width: 100%;
+    max-width: 520px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: none;
+  }
+
+  .form-card.visible { display: block; }
+
+  .form-title {
+    font-size: 14px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form-title.ml { color: var(--accent-ml); }
+  .form-title.ig { color: var(--accent-ig); }
+  .form-title.neg { color: var(--accent-neg); }
+  .form-title.per { color: var(--accent-per); }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    transition: border-color 0.15s;
+    outline: none;
+    appearance: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent-active);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+
+  select option { background: #1c2030; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .today-btn {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent-active);
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    background: none;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-save {
+    background: var(--accent-ml);
+    color: #0d0f12;
+  }
+  .btn-save.ig-theme { background: var(--accent-ig); }
+  .btn-save.neg-theme { background: var(--accent-neg); }
+  .btn-save.per-theme { background: var(--accent-per); }
+
+  .btn-save:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-save:active { transform: scale(0.98); }
+
+  .btn-clear {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-clear:hover { border-color: var(--muted); color: var(--text); }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 22px;
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+    z-index: 999;
+    white-space: nowrap;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-ml); flex-shrink: 0; }
+  .toast-dot.ig { background: var(--accent-ig); }
+  .toast-dot.neg { background: var(--accent-neg); }
+  .toast-dot.per { background: var(--accent-per); }
+
+  .saved-list {
+    width: 100%;
+    max-width: 520px;
+    margin-top: 20px;
+  }
+
+  .saved-header {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .clear-all {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .clear-all:hover { color: #ef4444; }
+
+  .saved-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    animation: slideIn 0.25s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .saved-item-info { flex: 1; min-width: 0; }
+  .saved-item-type {
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .saved-item-desc {
+    font-size: 13px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .saved-item-amount {
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+
+  .type-ml { color: var(--accent-ml); }
+  .type-ig { color: var(--accent-ig); }
+  .type-neg { color: var(--accent-neg); }
+  .type-per { color: var(--accent-per); }
+
+  .export-section {
+    width: 100%;
+    max-width: 520px;
+    margin-top: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+
+  .export-title {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .export-btn {
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .export-btn:hover { border-color: var(--text); }
+  .export-btn:last-child { margin-bottom: 0; }
+
+
+  .sheets-url-input {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .counter {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    background: var(--surface2);
+    border-radius: 20px;
+    padding: 3px 10px;
+  }
+
+  @media (max-width: 400px) {
+    .tab-btn .tab-label { font-size: 9px; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Paldea Games · Sistema de Registro</div>
+  <h1>Panel de <span>Ingresos</span><br>y Gastos</h1>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active-ml" onclick="setTab('ml')" id="tab-ml">
+    <span class="tab-icon">🛒</span>
+    <span class="tab-label">Mercado Libre</span>
+  </button>
+  <button class="tab-btn" onclick="setTab('ig')" id="tab-ig">
+    <span class="tab-icon">📲</span>
+    <span class="tab-label">IG / FB / WA</span>
+  </button>
+  <button class="tab-btn" onclick="setTab('neg')" id="tab-neg">
+    <span class="tab-icon">🏪</span>
+    <span class="tab-label">Gasto Negocio</span>
+  </button>
+  <button class="tab-btn" onclick="setTab('per')" id="tab-per">
+    <span class="tab-icon">👤</span>
+    <span class="tab-label">Gasto Personal</span>
+  </button>
+</div>
+
+<!-- FORM: Ingresos ML -->
+<div class="form-card visible" id="form-ml">
+  <div class="form-title ml">Ingreso · Mercado Libre</div>
+
+  <input type="hidden" id="ml-fecha">
+
+  <div class="field">
+    <label>N° Orden ML</label>
+    <input type="text" id="ml-orden" placeholder="Ej: 123456789">
+  </div>
+
+  <div class="field">
+    <label>Tipo de pack</label>
+    <select id="ml-tipo">
+      <option value="">Seleccionar...</option>
+      <option>Pack 55 cartas Pokémon</option>
+      <option>Pack 50 entrenadores</option>
+      <option>Pack 20 brillantes</option>
+      <option>Pack 20 holográficas</option>
+      <option>Pack 30 Pokémon 151</option>
+      <option>Pack 2x55 cartas</option>
+      <option>Pack 45-50 energías</option>
+      <option>Pack 10 Holos 151</option>
+      <option>Pack 100 One Piece</option>
+      <option>Pack 50 Dragon Ball</option>
+      <option>Otro</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Cantidad</label>
+      <input type="text" inputmode="numeric" id="ml-cant" placeholder="1">
+    </div>
+    <div class="field">
+      <label>Precio unit. ($)</label>
+      <input type="text" inputmode="numeric" id="ml-precio" placeholder="0">
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Notas (opcional)</label>
+    <input type="text" id="ml-notas" placeholder="Observaciones...">
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-clear" onclick="clearForm('ml')">Limpiar</button>
+    <button class="btn btn-save" onclick="guardar('ml')">Guardar ✓</button>
+  </div>
+</div>
+
+<!-- FORM: Ingresos IG/FB/WA -->
+<div class="form-card" id="form-ig">
+  <div class="form-title ig">Ingreso · IG / FB / WhatsApp</div>
+
+  <input type="hidden" id="ig-fecha">
+
+  <div class="field-row">
+    <div class="field">
+      <label>Canal</label>
+      <select id="ig-canal">
+        <option value="">Seleccionar...</option>
+        <option>Instagram</option>
+        <option>Facebook</option>
+        <option>WhatsApp</option>
+        <option>Messenger</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>¿Con entrega?</label>
+      <select id="ig-entrega">
+        <option value="No">No</option>
+        <option value="Sí">Sí</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Cliente (opcional)</label>
+    <input type="text" id="ig-cliente" placeholder="Nombre o @usuario">
+  </div>
+
+  <div class="field">
+    <label>Producto / Pack</label>
+    <select id="ig-tipo">
+      <option value="">Seleccionar...</option>
+      <option>Pack 55 cartas Pokémon</option>
+      <option>Pack 50 entrenadores</option>
+      <option>Pack 20 brillantes</option>
+      <option>Pack 20 holográficas</option>
+      <option>Pack 100 One Piece</option>
+      <option>Pack 50 Dragon Ball</option>
+      <option>Cartas singles</option>
+      <option>Subasta</option>
+      <option>Otro</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Cantidad</label>
+      <input type="text" inputmode="numeric" id="ig-cant" placeholder="1">
+    </div>
+    <div class="field">
+      <label>Precio unit. ($)</label>
+      <input type="text" inputmode="numeric" id="ig-precio" placeholder="0">
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-clear" onclick="clearForm('ig')">Limpiar</button>
+    <button class="btn btn-save ig-theme" onclick="guardar('ig')">Guardar ✓</button>
+  </div>
+</div>
+
+<!-- FORM: Gastos Negocio -->
+<div class="form-card" id="form-neg">
+  <div class="form-title neg">Gasto · Negocio</div>
+
+  <input type="hidden" id="neg-fecha">
+
+  <div class="field">
+    <label>Categoría</label>
+    <select id="neg-cat">
+      <option value="">Seleccionar...</option>
+      <option>Materiales embalaje</option>
+      <option>Compra de cartas</option>
+      <option>Mercado Libre / plataforma</option>
+      <option>Marketing / publicidad</option>
+      <option>Transporte / bicicleta</option>
+      <option>Tecnología</option>
+      <option>Servicios básicos</option>
+      <option>Arriendo</option>
+      <option>Capacitación</option>
+      <option>Otro</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Descripción</label>
+    <input type="text" id="neg-desc" placeholder="Ej: Rollo papel kraft 200m">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Tipo</label>
+      <select id="neg-tipo">
+        <option>Fijo</option>
+        <option>Variable</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Monto ($)</label>
+      <input type="text" inputmode="numeric" id="neg-monto" placeholder="0">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Medio de pago</label>
+      <select id="neg-pago">
+        <option>Transferencia</option>
+        <option>Débito</option>
+        <option>Efectivo</option>
+        <option>Mercado Pago</option>
+        <option>Crédito</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>¿Boleta/Factura?</label>
+      <select id="neg-doc">
+        <option>Sí</option>
+        <option>No</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Notas (opcional)</label>
+    <input type="text" id="neg-notas" placeholder="Observaciones...">
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-clear" onclick="clearForm('neg')">Limpiar</button>
+    <button class="btn btn-save neg-theme" onclick="guardar('neg')">Guardar ✓</button>
+  </div>
+</div>
+
+<!-- FORM: Gastos Personales -->
+<div class="form-card" id="form-per">
+  <div class="form-title per">Gasto · Personal</div>
+
+  <input type="hidden" id="per-fecha">
+
+  <div class="field">
+    <label>Categoría</label>
+    <select id="per-cat">
+      <option value="">Seleccionar...</option>
+      <option>Alimentación</option>
+      <option>Arriendo</option>
+      <option>Transporte</option>
+      <option>Salud</option>
+      <option>Ropa</option>
+      <option>Entretenimiento</option>
+      <option>Servicios básicos</option>
+      <option>Ahorro</option>
+      <option>Panadería</option>
+      <option>OXXO</option>
+      <option>Otro</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Descripción</label>
+    <input type="text" id="per-desc" placeholder="Ej: Supermercado Jumbo">
+  </div>
+
+  <div class="field-row">
+    <div class="field">
+      <label>Monto ($)</label>
+      <input type="text" inputmode="numeric" id="per-monto" placeholder="0">
+    </div>
+    <div class="field">
+      <label>Medio de pago</label>
+      <select id="per-pago">
+        <option>Débito</option>
+        <option>Efectivo</option>
+        <option>Transferencia</option>
+        <option>Crédito</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>¿Necesario?</label>
+    <select id="per-nec">
+      <option>Sí</option>
+      <option>No</option>
+    </select>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-clear" onclick="clearForm('per')">Limpiar</button>
+    <button class="btn btn-save per-theme" onclick="guardar('per')">Guardar ✓</button>
+  </div>
+</div>
+
+<!-- Saved list -->
+<div class="saved-list" id="saved-list" style="display:none">
+  <div class="saved-header">
+    <span>Registros de esta sesión <span class="counter" id="counter">0</span></span>
+    <button class="clear-all" onclick="clearAll()">Limpiar todo</button>
+  </div>
+  <div id="saved-items"></div>
+</div>
+
+<input type="hidden" id="sheets-url" value="https://script.google.com/macros/s/AKfycbwpbyh6avFEjyM5NtvV1HEeEQy6DnbqpuIKsguHAgrwKjYG9NUdYOO8d3UF3_CtUYcY/exec">
+
+<div class="toast" id="toast">
+  <div class="toast-dot" id="toast-dot"></div>
+  <span id="toast-msg">Guardado correctamente</span>
+</div>
+
+<script>
+  let currentTab = 'ml';
+  let records = JSON.parse(localStorage.getItem('pg_records') || '[]');
+  const sheetsURL = 'https://script.google.com/macros/s/AKfycbwpbyh6avFEjyM5NtvV1HEeEQy6DnbqpuIKsguHAgrwKjYG9NUdYOO8d3UF3_CtUYcY/exec';
+
+  const tabColors = { ml:'ml', ig:'ig', neg:'neg', per:'per' };
+
+  function setTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.form-card').forEach(f => f.classList.remove('visible'));
+    document.getElementById('form-' + tab).classList.add('visible');
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.className = 'tab-btn';
+    });
+    document.getElementById('tab-' + tab).classList.add('active-' + tab);
+    const accents = { ml:'--accent-ml', ig:'--accent-ig', neg:'--accent-neg', per:'--accent-per' };
+    document.documentElement.style.setProperty('--accent-active',
+      getComputedStyle(document.documentElement).getPropertyValue(accents[tab]).trim());
+  }
+
+  function getTodayChile() {
+    const now = new Date();
+    const chile = new Date(now.toLocaleString('en-US', { timeZone: 'America/Santiago' }));
+    const y = chile.getFullYear();
+    const m = String(chile.getMonth() + 1).padStart(2, '0');
+    const d = String(chile.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + d;
+  }
+
+  function setToday(id) {
+    document.getElementById(id).value = getTodayChile();
+  }
+
+  function getVal(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function fmt(n) {
+    return '$' + Number(n).toLocaleString('es-CL');
+  }
+
+  function guardar(tab) {
+    let record = { tipo: tab, fecha: new Date().toISOString() };
+    let desc = '', amount = 0, label = '';
+
+    if (tab === 'ml') {
+      const cant = Number(getVal('ml-cant')) || 1;
+      const precio = Number(getVal('ml-precio')) || 0;
+      record = { ...record,
+        fecha_venta: getVal('ml-fecha'),
+        orden: getVal('ml-orden'),
+        tipo_pack: getVal('ml-tipo'),
+        cantidad: cant,
+        precio_unit: precio,
+        total: cant * precio,
+        comision_ml: 1000 + (cant * precio * 0.2),
+        costo_elaboracion: cant * 1075,
+        ingreso_neto: (cant * precio) - (1000 + cant * precio * 0.2) - (cant * 1075),
+        notas: getVal('ml-notas')
+      };
+      desc = record.tipo_pack || 'Pack ML';
+      amount = record.total;
+      label = 'ML';
+    } else if (tab === 'ig') {
+      const cant = Number(getVal('ig-cant')) || 1;
+      const precio = Number(getVal('ig-precio')) || 0;
+      record = { ...record,
+        fecha_venta: getVal('ig-fecha'),
+        canal: getVal('ig-canal'),
+        cliente: getVal('ig-cliente'),
+        tipo_pack: getVal('ig-tipo'),
+        cantidad: cant,
+        precio_unit: precio,
+        total: cant * precio,
+        con_entrega: getVal('ig-entrega'),
+        costo_elaboracion: cant * 1075,
+        ingreso_neto: (cant * precio) - (cant * 1075)
+      };
+      desc = (record.canal || 'Directo') + ' · ' + (record.tipo_pack || '');
+      amount = record.total;
+      label = record.canal || 'IG';
+    } else if (tab === 'neg') {
+      record = { ...record,
+        fecha_gasto: getVal('neg-fecha'),
+        categoria: getVal('neg-cat'),
+        descripcion: getVal('neg-desc'),
+        tipo_costo: getVal('neg-tipo'),
+        monto: Number(getVal('neg-monto')) || 0,
+        medio_pago: getVal('neg-pago'),
+        documento: getVal('neg-doc'),
+        notas: getVal('neg-notas')
+      };
+      desc = record.categoria + ' · ' + record.descripcion;
+      amount = record.monto;
+      label = 'Negocio';
+    } else if (tab === 'per') {
+      record = { ...record,
+        fecha_gasto: getVal('per-fecha'),
+        categoria: getVal('per-cat'),
+        descripcion: getVal('per-desc'),
+        monto: Number(getVal('per-monto')) || 0,
+        medio_pago: getVal('per-pago'),
+        necesario: getVal('per-nec')
+      };
+      desc = record.categoria + ' · ' + record.descripcion;
+      amount = record.monto;
+      label = 'Personal';
+    }
+
+    records.push(record);
+    localStorage.setItem('pg_records', JSON.stringify(records));
+
+    if (sheetsURL) {
+      sendToSheets(record).then(res => {
+        if (res === 'OK') showToast('Sincronizado con Sheets ✓', tab);
+        else showToast('Guardado local (revisar Sheets)', tab);
+      });
+    }
+
+    addSavedItem(label, desc, amount, tab);
+    clearForm(tab);
+    showToast('Guardado · ' + fmt(amount), tab);
+  }
+
+  function addSavedItem(label, desc, amount, tab) {
+    const list = document.getElementById('saved-items');
+    const sl = document.getElementById('saved-list');
+    sl.style.display = 'block';
+
+    const item = document.createElement('div');
+    item.className = 'saved-item';
+    item.innerHTML = `
+      <div class="saved-item-info">
+        <div class="saved-item-type type-${tab}">${label}</div>
+        <div class="saved-item-desc">${desc || '—'}</div>
+      </div>
+      <div class="saved-item-amount type-${tab}">${fmt(amount)}</div>
+    `;
+    list.insertBefore(item, list.firstChild);
+
+    const count = records.length;
+    document.getElementById('counter').textContent = count;
+  }
+
+  function clearForm(tab) {
+    document.querySelectorAll(`#form-${tab} input, #form-${tab} select`).forEach(el => {
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    });
+  }
+
+  function clearAll() {
+    if (confirm('¿Eliminar todos los registros de esta sesión?')) {
+      records = [];
+      localStorage.setItem('pg_records', '[]');
+      document.getElementById('saved-items').innerHTML = '';
+      document.getElementById('saved-list').style.display = 'none';
+      document.getElementById('counter').textContent = '0';
+    }
+  }
+
+  function showToast(msg, tab) {
+    const toast = document.getElementById('toast');
+    const dot = document.getElementById('toast-dot');
+    const msgEl = document.getElementById('toast-msg');
+    dot.className = 'toast-dot ' + (tab === 'ml' ? '' : tab);
+    msgEl.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+    const rows = records.map(r => Object.values(r).map(v => '"' + String(v).replace(/"/g,'""') + '"').join(','));
+    const headers = records.length ? Object.keys(records[0]).join(',') : '';
+    const csv = headers + '\n' + rows.join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'paldea_games_' + new Date().toISOString().split('T')[0] + '.csv';
+    a.click();
+  function copyJSON() {
+    if (!records.length) { showToast('No hay registros aún', 'per'); return; }
+    const text = records.map(r => {
+      return Object.entries(r).map(([k,v]) => k + ': ' + v).join(' | ');
+    }).join('\n');
+    navigator.clipboard.writeText(text).then(() => showToast('Copiado al portapapeles', 'per'));
+  }
+
+  function saveURL() {}
+
+  function sendToSheets(record) {
+    return new Promise((resolve) => {
+      const callbackName = 'pg_cb_' + Date.now();
+      const params = new URLSearchParams({ data: JSON.stringify(record), callback: callbackName });
+      const url = sheetsURL + '?' + params.toString();
+
+      window[callbackName] = function(response) {
+        delete window[callbackName];
+        script.remove();
+        resolve(response);
+      };
+
+      const script = document.createElement('script');
+      script.src = url;
+      script.onerror = () => {
+        delete window[callbackName];
+        script.remove();
+        resolve(null);
+      };
+      document.head.appendChild(script);
+
+      setTimeout(() => {
+        if (window[callbackName]) {
+          delete window[callbackName];
+          script.remove();
+          resolve(null);
+        }
+      }, 8000);
+    });
+  }
+
+  renderExisting();
+  function renderExisting() {
+    if (!records.length) return;
+    records.slice(-5).reverse().forEach(r => {
+      let tab = r.tipo, label = '', desc = '', amount = 0;
+      if (tab === 'ml') { label='ML'; desc=r.tipo_pack||''; amount=r.total||0; }
+      else if (tab === 'ig') { label=r.canal||'IG'; desc=r.tipo_pack||''; amount=r.total||0; }
+      else if (tab === 'neg') { label='Negocio'; desc=r.descripcion||''; amount=r.monto||0; }
+      else if (tab === 'per') { label='Personal'; desc=r.descripcion||''; amount=r.monto||0; }
+      addSavedItem(label, desc, amount, tab);
+    });
+    document.getElementById('counter').textContent = records.length;
+  }
+
+  const hoy = getTodayChile();
+  document.getElementById('ml-fecha').value = hoy;
+  document.getElementById('ig-fecha').value = hoy;
+  document.getElementById('neg-fecha').value = hoy;
+  document.getElementById('per-fecha').value = hoy;
+</script>
+</body>
+</html>
