@@ -7,146 +7,83 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0f12;
-    --surface: #151820;
-    --surface2: #1c2030;
-    --border: #2a2f42;
-    --text: #e8eaf0;
-    --muted: #6b7280;
-    --accent-ml: #fb923c;
-    --accent-neg: #3dd68c;
-    --accent-per: #a78bfa;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --bg: #0d0f12; --surface: #151820; --surface2: #1c2030; --border: #2a2f42;
+    --text: #e8eaf0; --muted: #6b7280; --accent-ml: #fb923c; --accent-neg: #3dd68c;
+    --accent-per: #a78bfa; --radius: 12px; --radius-sm: 8px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
   input[type=number] { -moz-appearance: textfield; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 24px 16px 48px;
-  }
-
+  body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 24px 16px 48px; }
   header { width: 100%; max-width: 520px; margin-bottom: 28px; }
   .logo { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
   h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
   h1 span { color: var(--accent-ml); }
-
-  .tab-bar { width: 100%; max-width: 520px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 20px; }
-
-  .tab-btn {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); padding: 12px 6px; cursor: pointer;
-    text-align: center; transition: all 0.18s;
-    display: flex; flex-direction: column; align-items: center; gap: 5px;
-  }
+  .tab-bar { width: 100%; max-width: 520px; display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 20px; }
+  .tab-btn { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 6px; cursor: pointer; text-align: center; transition: all 0.18s; display: flex; flex-direction: column; align-items: center; gap: 5px; }
   .tab-btn .tab-icon { font-size: 20px; line-height: 1; }
   .tab-btn .tab-label { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.18s; }
-
   .tab-btn.active-ml { border-color: var(--accent-ml); background: rgba(251,146,60,0.08); }
   .tab-btn.active-ml .tab-label { color: var(--accent-ml); }
   .tab-btn.active-neg { border-color: var(--accent-neg); background: rgba(61,214,140,0.08); }
   .tab-btn.active-neg .tab-label { color: var(--accent-neg); }
   .tab-btn.active-per { border-color: var(--accent-per); background: rgba(167,139,250,0.08); }
   .tab-btn.active-per .tab-label { color: var(--accent-per); }
-
   .form-card { width: 100%; max-width: 520px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: none; }
   .form-card.visible { display: block; }
-
   .form-title { font-size: 13px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-  .form-title.ml { color: var(--accent-ml); }
-  .form-title.neg { color: var(--accent-neg); }
-  .form-title.per { color: var(--accent-per); }
-
+  .form-title.ml { color: var(--accent-ml); } .form-title.neg { color: var(--accent-neg); } .form-title.per { color: var(--accent-per); }
   .field { margin-bottom: 16px; }
   label { display: block; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 7px; }
-
-  input, select, textarea {
-    width: 100%; background: var(--bg); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text);
-    font-family: 'Syne', sans-serif; font-size: 15px; transition: border-color 0.15s;
-    outline: none; appearance: none;
-  }
+  input, select, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-family: 'Syne', sans-serif; font-size: 15px; transition: border-color 0.15s; outline: none; appearance: none; }
   input:focus, select:focus { border-color: #fb923c; }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer;
-  }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
   select option { background: #1c2030; }
-
+  input[type="date"] { color-scheme: dark; cursor: pointer; }
+  input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.6) sepia(1) saturate(3) hue-rotate(10deg); cursor: pointer; width: 16px; height: 16px; opacity: 0.7; }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
   .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
   .btn { padding: 14px; border-radius: var(--radius-sm); font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; border: none; letter-spacing: 0.02em; }
   .btn-save { background: var(--accent-ml); color: #0d0f12; }
   .btn-save.neg-theme { background: var(--accent-neg); }
   .btn-save.per-theme { background: var(--accent-per); }
   .btn-save:hover { filter: brightness(1.1); transform: translateY(-1px); }
-  .btn-save:active { transform: scale(0.98); }
   .btn-clear { background: transparent; color: var(--muted); border: 1px solid var(--border); }
   .btn-clear:hover { border-color: var(--muted); color: var(--text); }
-
   .subtipo-bar { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
-  .subtipo-btn {
-    font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
-    text-transform: uppercase; padding: 6px 12px; border-radius: 20px;
-    border: 1px solid var(--border); background: var(--surface2);
-    color: var(--muted); cursor: pointer; transition: all 0.15s;
-  }
+  .subtipo-btn { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .subtipo-btn.active { border-color: var(--accent-ml); color: var(--accent-ml); background: rgba(251,146,60,0.1); }
   .subtipo-btn.neg-active { border-color: var(--accent-neg); color: var(--accent-neg); background: rgba(61,214,140,0.1); }
-
-  .sub-form { display: none; }
-  .sub-form.visible { display: block; }
-
+  .sub-form { display: none; } .sub-form.visible { display: block; }
   .info-tag { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); background: var(--surface2); border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; line-height: 1.6; }
   .info-tag span { color: var(--accent-ml); }
-
-  .coming-soon {
-    text-align: center; padding: 32px 20px;
-    border: 1px dashed var(--border); border-radius: var(--radius-sm);
-    margin-bottom: 16px;
-  }
+  .coming-soon { text-align: center; padding: 32px 20px; border: 1px dashed var(--border); border-radius: var(--radius-sm); margin-bottom: 16px; }
   .coming-soon .cs-icon { font-size: 28px; margin-bottom: 10px; }
   .coming-soon p { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--muted); line-height: 1.7; }
   .coming-soon p span { color: var(--accent-ml); }
-
   .saved-list { width: 100%; max-width: 520px; margin-top: 20px; }
   .saved-header { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
   .clear-all { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); cursor: pointer; background: none; border: none; text-decoration: underline; text-underline-offset: 3px; letter-spacing: 0.08em; text-transform: uppercase; }
   .clear-all:hover { color: #ef4444; }
-
   .saved-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; animation: slideIn 0.25s ease; }
   @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   .saved-item-info { flex: 1; min-width: 0; }
   .saved-item-type { font-size: 9px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
   .saved-item-desc { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .saved-item-amount { font-size: 15px; font-weight: 700; font-family: 'DM Mono', monospace; white-space: nowrap; }
-  .type-ml { color: var(--accent-ml); }
-  .type-neg { color: var(--accent-neg); }
-  .type-per { color: var(--accent-per); }
-
+  .saved-item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .type-ml { color: var(--accent-ml); } .type-neg { color: var(--accent-neg); } .type-per { color: var(--accent-per); }
+  .btn-delete { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 16px; line-height: 1; padding: 2px 4px; border-radius: 4px; transition: all 0.15s; font-family: monospace; }
+  .btn-delete:hover { color: #ef4444; background: rgba(239,68,68,0.1); }
+  .btn-delete.loading { opacity: 0.4; pointer-events: none; }
+  .saved-item.deleting { opacity: 0; transform: translateX(20px); transition: all 0.3s ease; }
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 22px; font-size: 13px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; transition: transform 0.3s cubic-bezier(.34,1.56,.64,1); z-index: 999; white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-ml); flex-shrink: 0; }
-  .toast-dot.neg { background: var(--accent-neg); }
-  .toast-dot.per { background: var(--accent-per); }
-
+  .toast-dot.neg { background: var(--accent-neg); } .toast-dot.per { background: var(--accent-per); } .toast-dot.del { background: #ef4444; }
   .counter { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); background: var(--surface2); border-radius: 20px; padding: 3px 10px; }
-
-  @media (max-width: 400px) {
-    .field-row, .field-row-3 { grid-template-columns: 1fr; }
-    .subtipo-btn { font-size: 9px; }
-  }
+  @media (max-width: 400px) { .field-row { grid-template-columns: 1fr; } .subtipo-btn { font-size: 9px; } }
 </style>
 </head>
 <body>
@@ -158,23 +95,19 @@
 
 <div class="tab-bar">
   <button class="tab-btn active-ml" onclick="setTab('ml')" id="tab-ml">
-    <span class="tab-icon">🛒</span>
-    <span class="tab-label">Costos ML</span>
+    <span class="tab-icon">🛒</span><span class="tab-label">Costos ML</span>
   </button>
   <button class="tab-btn" onclick="setTab('neg')" id="tab-neg">
-    <span class="tab-icon">🏪</span>
-    <span class="tab-label">Costos Negocio</span>
+    <span class="tab-icon">🏪</span><span class="tab-label">Costos Negocio</span>
   </button>
   <button class="tab-btn" onclick="setTab('per')" id="tab-per">
-    <span class="tab-icon">👤</span>
-    <span class="tab-label">Gasto Personal</span>
+    <span class="tab-icon">👤</span><span class="tab-label">Gasto Personal</span>
   </button>
 </div>
 
 <!-- ═══ COSTOS ML ═══ -->
 <div class="form-card visible" id="form-ml">
   <div class="form-title ml">Costos · Mercado Libre</div>
-
   <div class="subtipo-bar">
     <button class="subtipo-btn active" onclick="setSubtipo('ml','comision')" id="ml-sub-comision">Comisión venta</button>
     <button class="subtipo-btn" onclick="setSubtipo('ml','colecta')" id="ml-sub-colecta">Colecta</button>
@@ -184,7 +117,6 @@
     <button class="subtipo-btn" onclick="setSubtipo('ml','excel')" id="ml-sub-excel">Subir Excel ML</button>
   </div>
 
-  <!-- Comisión por venta -->
   <div class="sub-form visible" id="ml-form-comision">
     <div class="info-tag">Base: <span>$1.000</span> fijo + <span>$800</span> fulfillment + % categoría por venta</div>
     <div class="field">
@@ -197,105 +129,59 @@
       </select>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>N° ventas del período</label>
-        <input type="text" inputmode="numeric" id="ml-com-ventas" placeholder="0">
-      </div>
-      <div class="field">
-        <label>Facturación total ($)</label>
-        <input type="text" inputmode="numeric" id="ml-com-total" placeholder="0">
-      </div>
+      <div class="field"><label>N° ventas del período</label><input type="text" inputmode="numeric" id="ml-com-ventas" placeholder="0"></div>
+      <div class="field"><label>Facturación total ($)</label><input type="text" inputmode="numeric" id="ml-com-total" placeholder="0"></div>
     </div>
-    <div class="field">
-      <label>Mes / período</label>
-      <input type="text" id="ml-com-periodo" placeholder="Ej: Mayo 2026">
-    </div>
+    <div class="field"><label>Mes / período</label><input type="text" id="ml-com-periodo" placeholder="Ej: Mayo 2026"></div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('ml-form-comision')">Limpiar</button>
       <button class="btn btn-save" onclick="guardar('ml','comision')">Guardar ✓</button>
     </div>
   </div>
 
-  <!-- Colecta -->
   <div class="sub-form" id="ml-form-colecta">
     <div class="info-tag">Registro por cada envío a fulfillment. Puede haber varias colectas al mes.</div>
     <div class="field-row">
-      <div class="field">
-        <label>Fecha colecta</label>
-        <input type="text" id="ml-col-fecha" placeholder="DD/MM/AAAA">
-      </div>
-      <div class="field">
-        <label>N° productos</label>
-        <input type="text" inputmode="numeric" id="ml-col-productos" placeholder="0">
-      </div>
+      <div class="field"><label>Fecha colecta</label><input type="date" id="ml-col-fecha"></div>
+      <div class="field"><label>N° productos</label><input type="text" inputmode="numeric" id="ml-col-productos" placeholder="0"></div>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Costo colecta ($)</label>
-        <input type="text" inputmode="numeric" id="ml-col-monto" placeholder="0">
-      </div>
-      <div class="field">
-        <label>N° colecta del mes</label>
-        <input type="text" inputmode="numeric" id="ml-col-num" placeholder="1">
-      </div>
+      <div class="field"><label>Costo colecta ($)</label><input type="text" inputmode="numeric" id="ml-col-monto" placeholder="0"></div>
+      <div class="field"><label>N° colecta del mes</label><input type="text" inputmode="numeric" id="ml-col-num" placeholder="1"></div>
     </div>
-    <div class="field">
-      <label>Notas (opcional)</label>
-      <input type="text" id="ml-col-notas" placeholder="Observaciones...">
-    </div>
+    <div class="field"><label>Notas (opcional)</label><input type="text" id="ml-col-notas" placeholder="Observaciones..."></div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('ml-form-colecta')">Limpiar</button>
       <button class="btn btn-save" onclick="guardar('ml','colecta')">Guardar ✓</button>
     </div>
   </div>
 
-  <!-- Fulfillment diario -->
   <div class="sub-form" id="ml-form-fulfillment">
     <div class="info-tag">Costo diario de almacenaje en bodega fulfillment.</div>
     <div class="field-row">
-      <div class="field">
-        <label>Mes</label>
-        <input type="text" id="ml-ful-mes" placeholder="Ej: Mayo 2026">
-      </div>
-      <div class="field">
-        <label>Costo total mes ($)</label>
-        <input type="text" inputmode="numeric" id="ml-ful-monto" placeholder="0">
-      </div>
+      <div class="field"><label>Mes</label><input type="text" id="ml-ful-mes" placeholder="Ej: Mayo 2026"></div>
+      <div class="field"><label>Costo total mes ($)</label><input type="text" inputmode="numeric" id="ml-ful-monto" placeholder="0"></div>
     </div>
-    <div class="field">
-      <label>Unidades promedio en bodega</label>
-      <input type="text" inputmode="numeric" id="ml-ful-unidades" placeholder="0">
-    </div>
+    <div class="field"><label>Unidades promedio en bodega</label><input type="text" inputmode="numeric" id="ml-ful-unidades" placeholder="0"></div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('ml-form-fulfillment')">Limpiar</button>
       <button class="btn btn-save" onclick="guardar('ml','fulfillment')">Guardar ✓</button>
     </div>
   </div>
 
-  <!-- Antigüedad -->
   <div class="sub-form" id="ml-form-antiguedad">
     <div class="info-tag">Cargo por productos con más de <span>6 meses</span> en bodega fulfillment.</div>
     <div class="field-row">
-      <div class="field">
-        <label>Mes del cargo</label>
-        <input type="text" id="ml-ant-mes" placeholder="Ej: Mayo 2026">
-      </div>
-      <div class="field">
-        <label>Monto cobrado ($)</label>
-        <input type="text" inputmode="numeric" id="ml-ant-monto" placeholder="0">
-      </div>
+      <div class="field"><label>Mes del cargo</label><input type="text" id="ml-ant-mes" placeholder="Ej: Mayo 2026"></div>
+      <div class="field"><label>Monto cobrado ($)</label><input type="text" inputmode="numeric" id="ml-ant-monto" placeholder="0"></div>
     </div>
-    <div class="field">
-      <label>N° productos afectados</label>
-      <input type="text" inputmode="numeric" id="ml-ant-productos" placeholder="0">
-    </div>
+    <div class="field"><label>N° productos afectados</label><input type="text" inputmode="numeric" id="ml-ant-productos" placeholder="0"></div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('ml-form-antiguedad')">Limpiar</button>
       <button class="btn btn-save" onclick="guardar('ml','antiguedad')">Guardar ✓</button>
     </div>
   </div>
 
-  <!-- Fijos / Publicidad -->
   <div class="sub-form" id="ml-form-fijos">
     <div class="field">
       <label>Tipo de costo fijo</label>
@@ -307,14 +193,8 @@
       </select>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Mes</label>
-        <input type="text" id="ml-fij-mes" placeholder="Ej: Mayo 2026">
-      </div>
-      <div class="field">
-        <label>Monto ($)</label>
-        <input type="text" inputmode="numeric" id="ml-fij-monto" placeholder="0">
-      </div>
+      <div class="field"><label>Mes</label><input type="text" id="ml-fij-mes" placeholder="Ej: Mayo 2026"></div>
+      <div class="field"><label>Monto ($)</label><input type="text" inputmode="numeric" id="ml-fij-monto" placeholder="0"></div>
     </div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('ml-form-fijos')">Limpiar</button>
@@ -322,17 +202,10 @@
     </div>
   </div>
 
-  <!-- Subir Excel ML (próximamente) -->
   <div class="sub-form" id="ml-form-excel">
     <div class="coming-soon">
       <div class="cs-icon">📊</div>
-      <p>
-        <span>Importación de Excel ML</span><br><br>
-        Esta función está en construcción.<br>
-        Próximamente podrás subir el Excel<br>
-        exportado de Mercado Libre y los costos<br>
-        se registrarán automáticamente.
-      </p>
+      <p><span>Importación de Excel ML</span><br><br>Esta función está en construcción.<br>Próximamente podrás subir el Excel<br>exportado de Mercado Libre y los costos<br>se registrarán automáticamente.</p>
     </div>
   </div>
 </div>
@@ -340,57 +213,29 @@
 <!-- ═══ COSTOS NEGOCIO ═══ -->
 <div class="form-card" id="form-neg">
   <div class="form-title neg">Costos · Negocio</div>
-
   <div class="subtipo-bar">
     <button class="subtipo-btn neg-active" onclick="setSubtipoNeg('materiales')" id="neg-sub-materiales">Materiales</button>
     <button class="subtipo-btn" onclick="setSubtipoNeg('fijos')" id="neg-sub-fijos">Fijos mensuales</button>
     <button class="subtipo-btn" onclick="setSubtipoNeg('otro')" id="neg-sub-otro">Otro gasto</button>
   </div>
 
-  <!-- Materiales -->
   <div class="sub-form visible" id="neg-form-materiales">
     <div class="field">
       <label>Material</label>
       <select id="neg-mat-tipo">
         <option value="">Seleccionar...</option>
-        <option>Papel kraft</option>
-        <option>Cinta scotch</option>
-        <option>Cinta embalaje</option>
-        <option>Resma hojas legales</option>
-        <option>Tinta impresora</option>
-        <option>Cajas de cartón</option>
-        <option>Fundas / top loaders</option>
-        <option>Otro material</option>
+        <option>Papel kraft</option><option>Cinta scotch</option><option>Cinta embalaje</option>
+        <option>Resma hojas legales</option><option>Tinta impresora</option><option>Cajas de cartón</option>
+        <option>Fundas / top loaders</option><option>Otro material</option>
       </select>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Cantidad comprada</label>
-        <input type="text" inputmode="numeric" id="neg-mat-cant" placeholder="1">
-      </div>
-      <div class="field">
-        <label>Monto total ($)</label>
-        <input type="text" inputmode="numeric" id="neg-mat-monto" placeholder="0">
-      </div>
+      <div class="field"><label>Cantidad comprada</label><input type="text" inputmode="numeric" id="neg-mat-cant" placeholder="0"></div>
+      <div class="field"><label>Monto total ($)</label><input type="text" inputmode="numeric" id="neg-mat-monto" placeholder="0"></div>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Medio de pago</label>
-        <select id="neg-mat-pago">
-          <option>Transferencia</option>
-          <option>Débito</option>
-          <option>Efectivo</option>
-          <option>Mercado Pago</option>
-          <option>Crédito</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>¿Boleta/Factura?</label>
-        <select id="neg-mat-doc">
-          <option>Sí</option>
-          <option>No</option>
-        </select>
-      </div>
+      <div class="field"><label>Medio de pago</label><select id="neg-mat-pago"><option>Transferencia</option><option>Débito</option><option>Efectivo</option><option>Mercado Pago</option><option>Crédito</option></select></div>
+      <div class="field"><label>¿Boleta/Factura?</label><select id="neg-mat-doc"><option>Sí</option><option>No</option></select></div>
     </div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('neg-form-materiales')">Limpiar</button>
@@ -398,50 +243,22 @@
     </div>
   </div>
 
-  <!-- Fijos mensuales -->
   <div class="sub-form" id="neg-form-fijos">
     <div class="field">
       <label>Servicio</label>
       <select id="neg-fij-servicio">
         <option value="">Seleccionar...</option>
-        <option>Internet</option>
-        <option>Luz</option>
-        <option>Agua</option>
-        <option>Plan teléfono</option>
-        <option>Arriendo</option>
-        <option>Suscripción / software</option>
-        <option>Mantención bicicleta</option>
-        <option>Otro servicio fijo</option>
+        <option>Internet</option><option>Luz</option><option>Agua</option><option>Plan teléfono</option>
+        <option>Arriendo</option><option>Suscripción / software</option><option>Mantención bicicleta</option><option>Otro servicio fijo</option>
       </select>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Mes</label>
-        <input type="text" id="neg-fij-mes" placeholder="Ej: Mayo 2026">
-      </div>
-      <div class="field">
-        <label>Monto ($)</label>
-        <input type="text" inputmode="numeric" id="neg-fij-monto" placeholder="0">
-      </div>
+      <div class="field"><label>Mes</label><input type="text" id="neg-fij-mes" placeholder="Ej: Mayo 2026"></div>
+      <div class="field"><label>Monto ($)</label><input type="text" inputmode="numeric" id="neg-fij-monto" placeholder="0"></div>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Medio de pago</label>
-        <select id="neg-fij-pago">
-          <option>Transferencia</option>
-          <option>Débito</option>
-          <option>Efectivo</option>
-          <option>Mercado Pago</option>
-          <option>Crédito</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>¿Boleta/Factura?</label>
-        <select id="neg-fij-doc">
-          <option>Sí</option>
-          <option>No</option>
-        </select>
-      </div>
+      <div class="field"><label>Medio de pago</label><select id="neg-fij-pago"><option>Transferencia</option><option>Débito</option><option>Efectivo</option><option>Mercado Pago</option><option>Crédito</option></select></div>
+      <div class="field"><label>¿Boleta/Factura?</label><select id="neg-fij-doc"><option>Sí</option><option>No</option></select></div>
     </div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('neg-form-fijos')">Limpiar</button>
@@ -449,48 +266,17 @@
     </div>
   </div>
 
-  <!-- Otro gasto -->
   <div class="sub-form" id="neg-form-otro">
-    <div class="field">
-      <label>Descripción</label>
-      <input type="text" id="neg-otro-desc" placeholder="¿En qué fue el gasto?">
+    <div class="field"><label>Descripción</label><input type="text" id="neg-otro-desc" placeholder="¿En qué fue el gasto?"></div>
+    <div class="field-row">
+      <div class="field"><label>Monto ($)</label><input type="text" inputmode="numeric" id="neg-otro-monto" placeholder="0"></div>
+      <div class="field"><label>Tipo</label><select id="neg-otro-tipo"><option>Variable</option><option>Fijo</option></select></div>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Monto ($)</label>
-        <input type="text" inputmode="numeric" id="neg-otro-monto" placeholder="0">
-      </div>
-      <div class="field">
-        <label>Tipo</label>
-        <select id="neg-otro-tipo">
-          <option>Variable</option>
-          <option>Fijo</option>
-        </select>
-      </div>
+      <div class="field"><label>Medio de pago</label><select id="neg-otro-pago"><option>Transferencia</option><option>Débito</option><option>Efectivo</option><option>Mercado Pago</option><option>Crédito</option></select></div>
+      <div class="field"><label>¿Boleta/Factura?</label><select id="neg-otro-doc"><option>Sí</option><option>No</option></select></div>
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Medio de pago</label>
-        <select id="neg-otro-pago">
-          <option>Transferencia</option>
-          <option>Débito</option>
-          <option>Efectivo</option>
-          <option>Mercado Pago</option>
-          <option>Crédito</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>¿Boleta/Factura?</label>
-        <select id="neg-otro-doc">
-          <option>Sí</option>
-          <option>No</option>
-        </select>
-      </div>
-    </div>
-    <div class="field">
-      <label>Notas (opcional)</label>
-      <input type="text" id="neg-otro-notas" placeholder="Observaciones...">
-    </div>
+    <div class="field"><label>Notas (opcional)</label><input type="text" id="neg-otro-notas" placeholder="Observaciones..."></div>
     <div class="btn-row">
       <button class="btn btn-clear" onclick="clearSubForm('neg-form-otro')">Limpiar</button>
       <button class="btn btn-save neg-theme" onclick="guardar('neg','otro')">Guardar ✓</button>
@@ -505,46 +291,17 @@
     <label>Categoría</label>
     <select id="per-cat">
       <option value="">Seleccionar...</option>
-      <option>Alimentación</option>
-      <option>Panadería</option>
-      <option>OXXO</option>
-      <option>Arriendo</option>
-      <option>Transporte</option>
-      <option>Salud</option>
-      <option>Ropa</option>
-      <option>Entretenimiento</option>
-      <option>Servicios básicos</option>
-      <option>Ahorro</option>
-      <option>Otro</option>
+      <option>Alimentación</option><option>Panadería</option><option>OXXO</option><option>Arriendo</option>
+      <option>Transporte</option><option>Salud</option><option>Ropa</option><option>Entretenimiento</option>
+      <option>Servicios básicos</option><option>Ahorro</option><option>Otro</option>
     </select>
   </div>
-  <div class="field">
-    <label>Descripción</label>
-    <input type="text" id="per-desc" placeholder="Ej: Supermercado Jumbo">
-  </div>
+  <div class="field"><label>Descripción</label><input type="text" id="per-desc" placeholder="Ej: Supermercado Jumbo"></div>
   <div class="field-row">
-    <div class="field">
-      <label>Monto ($)</label>
-      <input type="text" inputmode="numeric" id="per-monto" placeholder="0">
-    </div>
-    <div class="field">
-      <label>Medio de pago</label>
-      <select id="per-pago">
-        <option>Débito</option>
-        <option>Efectivo</option>
-        <option>Transferencia</option>
-        <option>Mercado Pago</option>
-        <option>Crédito</option>
-      </select>
-    </div>
+    <div class="field"><label>Monto ($)</label><input type="text" inputmode="numeric" id="per-monto" placeholder="0"></div>
+    <div class="field"><label>Medio de pago</label><select id="per-pago"><option>Débito</option><option>Efectivo</option><option>Transferencia</option><option>Mercado Pago</option><option>Crédito</option></select></div>
   </div>
-  <div class="field">
-    <label>¿Necesario?</label>
-    <select id="per-nec">
-      <option>Sí</option>
-      <option>No</option>
-    </select>
-  </div>
+  <div class="field"><label>¿Necesario?</label><select id="per-nec"><option>Sí</option><option>No</option></select></div>
   <div class="btn-row">
     <button class="btn btn-clear" onclick="clearForm('per')">Limpiar</button>
     <button class="btn btn-save per-theme" onclick="guardar('per','')">Guardar ✓</button>
@@ -560,26 +317,32 @@
   <div id="saved-items"></div>
 </div>
 
-<input type="hidden" id="sheets-url" value="https://script.google.com/macros/s/AKfycbysyTYpIVJ0E9s_W2N35HxINtg4OL7UpugG7cX-vPvMFfr6QWb4PdacnMlzVSXDM2gn/exec">
-
 <div class="toast" id="toast">
   <div class="toast-dot" id="toast-dot"></div>
   <span id="toast-msg">Guardado</span>
 </div>
 
 <script>
-  let currentTab = 'ml';
-  let currentSubML = 'comision';
-  let currentSubNeg = 'materiales';
-  let records = JSON.parse(localStorage.getItem('pg_records') || '[]');
   const sheetsURL = 'https://script.google.com/macros/s/AKfycbysyTYpIVJ0E9s_W2N35HxINtg4OL7UpugG7cX-vPvMFfr6QWb4PdacnMlzVSXDM2gn/exec';
+  let currentTab = 'ml', currentSubML = 'comision', currentSubNeg = 'materiales';
+  let records = JSON.parse(localStorage.getItem('pg_records') || '[]');
+
+  // Fecha colecta por defecto = hoy
+  (function() {
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Santiago' }));
+    const iso = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    const el = document.getElementById('ml-col-fecha');
+    if (el) el.value = iso;
+  })();
 
   function getTodayChile() {
-    const now = new Date();
-    const chile = new Date(now.toLocaleString('en-US', { timeZone: 'America/Santiago' }));
-    const y = chile.getFullYear();
-    const m = String(chile.getMonth() + 1).padStart(2, '0');
-    const d = String(chile.getDate()).padStart(2, '0');
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Santiago' }));
+    return String(now.getDate()).padStart(2,'0') + '/' + String(now.getMonth()+1).padStart(2,'0') + '/' + now.getFullYear();
+  }
+
+  function isoToChile(iso) {
+    if (!iso) return getTodayChile();
+    const [y,m,d] = iso.split('-');
     return d + '/' + m + '/' + y;
   }
 
@@ -589,10 +352,6 @@
     document.getElementById('form-' + tab).classList.add('visible');
     document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
     document.getElementById('tab-' + tab).classList.add('active-' + tab);
-    const inputFocus = { ml:'--accent-ml', neg:'--accent-neg', per:'--accent-per' };
-    document.querySelectorAll('input, select').forEach(el => {
-      el.style.setProperty('--focus-color', '');
-    });
   }
 
   function setSubtipo(tab, sub) {
@@ -611,91 +370,141 @@
     document.getElementById('neg-sub-' + sub).classList.add('neg-active');
   }
 
-  function getVal(id) {
-    const el = document.getElementById(id);
-    return el ? el.value.trim() : '';
-  }
-
-  function fmt(n) {
-    return '$' + Number(n).toLocaleString('es-CL');
-  }
+  function getVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function fmt(n) { return '$' + Number(n).toLocaleString('es-CL'); }
 
   function guardar(tab, sub) {
     const fechaHoy = getTodayChile();
-    let record = { tipo: tab, subtipo: sub, fecha: fechaHoy };
+    let record = { tipo: tab, subtipo: sub, fecha: fechaHoy, _sheetFila: null, _sheetHoja: null };
     let desc = '', amount = 0;
 
     if (tab === 'ml') {
       if (sub === 'comision') {
-        const ventas = Number(getVal('ml-com-ventas')) || 0;
-        const total = Number(getVal('ml-com-total')) || 0;
-        const pct = Number(getVal('ml-com-cat')) || 0;
-        const comision = (total * pct / 100) + (ventas * 1800);
-        record = { ...record, categoria: getVal('ml-com-cat'), n_ventas: ventas,
-          facturacion: total, porcentaje_cat: pct, base_por_venta: ventas * 1800,
-          comision_pct: total * pct / 100, total_comision: comision, periodo: getVal('ml-com-periodo') };
+        const ventas = Number(getVal('ml-com-ventas'))||0, total = Number(getVal('ml-com-total'))||0;
+        const pct = Number(getVal('ml-com-cat'))||0, comision = (total*pct/100)+(ventas*1800);
+        record = {...record, categoria: getVal('ml-com-cat'), n_ventas: ventas, facturacion: total,
+          porcentaje_cat: pct, base_por_venta: ventas*1800, comision_pct: total*pct/100,
+          total_comision: comision, periodo: getVal('ml-com-periodo')};
         desc = 'Comisión ' + getVal('ml-com-periodo'); amount = comision;
       } else if (sub === 'colecta') {
-        record = { ...record, fecha_colecta: getVal('ml-col-fecha') || fechaHoy,
-          n_productos: getVal('ml-col-productos'), monto: Number(getVal('ml-col-monto')) || 0,
-          n_colecta_mes: getVal('ml-col-num'), notas: getVal('ml-col-notas') };
-        desc = 'Colecta #' + (getVal('ml-col-num') || '1'); amount = record.monto;
+        record = {...record, fecha_colecta: isoToChile(getVal('ml-col-fecha')),
+          n_productos: Number(getVal('ml-col-productos'))||0, monto: Number(getVal('ml-col-monto'))||0,
+          n_colecta_mes: Number(getVal('ml-col-num'))||1, notas: getVal('ml-col-notas')};
+        desc = 'Colecta #' + (getVal('ml-col-num')||'1'); amount = record.monto;
       } else if (sub === 'fulfillment') {
-        record = { ...record, mes: getVal('ml-ful-mes'), monto: Number(getVal('ml-ful-monto')) || 0,
-          unidades_promedio: getVal('ml-ful-unidades') };
+        record = {...record, mes: getVal('ml-ful-mes'), monto: Number(getVal('ml-ful-monto'))||0,
+          unidades_promedio: Number(getVal('ml-ful-unidades'))||0};
         desc = 'Fulfillment ' + getVal('ml-ful-mes'); amount = record.monto;
       } else if (sub === 'antiguedad') {
-        record = { ...record, mes: getVal('ml-ant-mes'), monto: Number(getVal('ml-ant-monto')) || 0,
-          n_productos: getVal('ml-ant-productos') };
+        record = {...record, mes: getVal('ml-ant-mes'), monto: Number(getVal('ml-ant-monto'))||0,
+          n_productos: Number(getVal('ml-ant-productos'))||0};
         desc = 'Antigüedad ' + getVal('ml-ant-mes'); amount = record.monto;
       } else if (sub === 'fijos') {
-        record = { ...record, tipo_fijo: getVal('ml-fij-tipo'), mes: getVal('ml-fij-mes'),
-          monto: Number(getVal('ml-fij-monto')) || 0 };
-        desc = getVal('ml-fij-tipo') || 'Costo fijo ML'; amount = record.monto;
+        record = {...record, tipo_fijo: getVal('ml-fij-tipo'), mes: getVal('ml-fij-mes'),
+          monto: Number(getVal('ml-fij-monto'))||0};
+        desc = getVal('ml-fij-tipo')||'Costo fijo ML'; amount = record.monto;
       }
     } else if (tab === 'neg') {
       if (sub === 'materiales') {
-        record = { ...record, material: getVal('neg-mat-tipo'), cantidad: getVal('neg-mat-cant'),
-          monto: Number(getVal('neg-mat-monto')) || 0, medio_pago: getVal('neg-mat-pago'),
-          documento: getVal('neg-mat-doc') };
-        desc = getVal('neg-mat-tipo') || 'Material'; amount = record.monto;
+        record = {...record, material: getVal('neg-mat-tipo'), cantidad: Number(getVal('neg-mat-cant'))||0,
+          monto: Number(getVal('neg-mat-monto'))||0, medio_pago: getVal('neg-mat-pago'), documento: getVal('neg-mat-doc')};
+        desc = getVal('neg-mat-tipo')||'Material'; amount = record.monto;
       } else if (sub === 'fijos') {
-        record = { ...record, servicio: getVal('neg-fij-servicio'), mes: getVal('neg-fij-mes'),
-          monto: Number(getVal('neg-fij-monto')) || 0, medio_pago: getVal('neg-fij-pago'),
-          documento: getVal('neg-fij-doc') };
-        desc = getVal('neg-fij-servicio') || 'Servicio fijo'; amount = record.monto;
+        record = {...record, servicio: getVal('neg-fij-servicio'), mes: getVal('neg-fij-mes'),
+          monto: Number(getVal('neg-fij-monto'))||0, medio_pago: getVal('neg-fij-pago'), documento: getVal('neg-fij-doc')};
+        desc = getVal('neg-fij-servicio')||'Servicio fijo'; amount = record.monto;
       } else if (sub === 'otro') {
-        record = { ...record, descripcion: getVal('neg-otro-desc'), monto: Number(getVal('neg-otro-monto')) || 0,
+        record = {...record, descripcion: getVal('neg-otro-desc'), monto: Number(getVal('neg-otro-monto'))||0,
           tipo_costo: getVal('neg-otro-tipo'), medio_pago: getVal('neg-otro-pago'),
-          documento: getVal('neg-otro-doc'), notas: getVal('neg-otro-notas') };
-        desc = getVal('neg-otro-desc') || 'Otro gasto'; amount = record.monto;
+          documento: getVal('neg-otro-doc'), notas: getVal('neg-otro-notas')};
+        desc = getVal('neg-otro-desc')||'Otro gasto'; amount = record.monto;
       }
     } else if (tab === 'per') {
-      record = { ...record, categoria: getVal('per-cat'), descripcion: getVal('per-desc'),
-        monto: Number(getVal('per-monto')) || 0, medio_pago: getVal('per-pago'),
-        necesario: getVal('per-nec') };
-      desc = (getVal('per-cat') || '') + ' · ' + (getVal('per-desc') || '');
-      amount = record.monto;
+      record = {...record, categoria: getVal('per-cat'), descripcion: getVal('per-desc'),
+        monto: Number(getVal('per-monto'))||0, medio_pago: getVal('per-pago'), necesario: getVal('per-nec')};
+      desc = (getVal('per-cat')||'') + ' · ' + (getVal('per-desc')||''); amount = record.monto;
     }
 
-    records.push(record);
+    const idx = records.push(record) - 1;
     localStorage.setItem('pg_records', JSON.stringify(records));
-    sendToSheets(record);
-    addSavedItem(tab, sub, desc, amount);
+
+    const itemEl = addSavedItem(tab, sub, desc, amount, idx);
+
+    // Enviar a Sheets y capturar fila devuelta
+    sendToSheets(record, (resp) => {
+      if (resp && resp.status === 'OK') {
+        records[idx]._sheetFila = resp.fila;
+        records[idx]._sheetHoja = resp.hoja;
+        localStorage.setItem('pg_records', JSON.stringify(records));
+        // Guardar referencia en el elemento DOM
+        if (itemEl) { itemEl.dataset.fila = resp.fila; itemEl.dataset.hoja = resp.hoja; }
+      }
+    });
+
     if (tab === 'per') clearForm('per');
     else clearSubForm(tab === 'ml' ? 'ml-form-' + sub : 'neg-form-' + sub);
+
+    if (sub === 'colecta') {
+      const now = new Date(new Date().toLocaleString('en-US',{timeZone:'America/Santiago'}));
+      document.getElementById('ml-col-fecha').value = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+    }
+
     showToast('Guardado · ' + fmt(amount), tab);
   }
 
-  function addSavedItem(tab, sub, desc, amount) {
+  function addSavedItem(tab, sub, desc, amount, idx) {
     const list = document.getElementById('saved-items');
     document.getElementById('saved-list').style.display = 'block';
     const label = tab === 'ml' ? 'ML · ' + sub : tab === 'neg' ? 'Negocio · ' + sub : 'Personal';
     const item = document.createElement('div');
     item.className = 'saved-item';
-    item.innerHTML = `<div class="saved-item-info"><div class="saved-item-type type-${tab}">${label}</div><div class="saved-item-desc">${desc || '—'}</div></div><div class="saved-item-amount type-${tab}">${fmt(amount)}</div>`;
+    item.dataset.idx = idx;
+    item.innerHTML =
+      `<div class="saved-item-info">
+        <div class="saved-item-type type-${tab}">${label}</div>
+        <div class="saved-item-desc">${desc || '—'}</div>
+      </div>
+      <div class="saved-item-right">
+        <div class="saved-item-amount type-${tab}">${fmt(amount)}</div>
+        <button class="btn-delete" onclick="eliminarRegistro(this)" title="Eliminar">✕</button>
+      </div>`;
     list.insertBefore(item, list.firstChild);
     document.getElementById('counter').textContent = records.length;
+    return item;
+  }
+
+  function eliminarRegistro(btn) {
+    const item = btn.closest('.saved-item');
+    const idx  = parseInt(item.dataset.idx);
+    const fila = item.dataset.fila;
+    const hoja = item.dataset.hoja;
+
+    btn.classList.add('loading');
+    btn.textContent = '…';
+
+    const doRemove = () => {
+      item.classList.add('deleting');
+      setTimeout(() => {
+        item.remove();
+        // Actualizar records
+        if (!isNaN(idx) && records[idx]) records[idx] = null;
+        localStorage.setItem('pg_records', JSON.stringify(records));
+        const visibles = document.querySelectorAll('#saved-items .saved-item').length;
+        document.getElementById('counter').textContent = visibles;
+        if (visibles === 0) document.getElementById('saved-list').style.display = 'none';
+      }, 300);
+      showToast('Registro eliminado', 'del');
+    };
+
+    if (fila && hoja) {
+      // Borrar del Sheet
+      deleteFromSheets(hoja, fila, (resp) => {
+        doRemove();
+      });
+    } else {
+      // Sin referencia de Sheet (p.ej. registros cargados de sesión anterior)
+      doRemove();
+    }
   }
 
   function clearSubForm(formId) {
@@ -703,7 +512,7 @@
     if (!form) return;
     form.querySelectorAll('input, select').forEach(el => {
       if (el.tagName === 'SELECT') el.selectedIndex = 0;
-      else el.value = '';
+      else if (el.type !== 'date') el.value = '';
     });
   }
 
@@ -726,31 +535,47 @@
 
   function showToast(msg, tab) {
     const toast = document.getElementById('toast');
-    const dot = document.getElementById('toast-dot');
+    const dot   = document.getElementById('toast-dot');
     document.getElementById('toast-msg').textContent = msg;
-    dot.className = 'toast-dot ' + (tab === 'neg' ? 'neg' : tab === 'per' ? 'per' : '');
+    dot.className = 'toast-dot' + (tab === 'neg' ? ' neg' : tab === 'per' ? ' per' : tab === 'del' ? ' del' : '');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2800);
   }
 
-  function sendToSheets(record) {
-    const callbackName = 'pg_cb_' + Date.now();
-    const params = new URLSearchParams({ data: JSON.stringify(record), callback: callbackName });
-    const url = sheetsURL + '?' + params.toString();
-    window[callbackName] = function() { delete window[callbackName]; script.remove(); };
+  function sendToSheets(record, onSuccess) {
+    const cbName = 'pg_cb_' + Date.now();
+    const params = new URLSearchParams({ data: JSON.stringify(record), callback: cbName });
+    window[cbName] = function(resp) { delete window[cbName]; script.remove(); if (onSuccess) onSuccess(resp); };
     const script = document.createElement('script');
-    script.src = url;
-    script.onerror = () => { delete window[callbackName]; script.remove(); };
+    script.src = sheetsURL + '?' + params.toString();
+    script.onerror = () => { delete window[cbName]; script.remove(); };
     document.head.appendChild(script);
-    setTimeout(() => { if (window[callbackName]) { delete window[callbackName]; script.remove(); } }, 8000);
+    setTimeout(() => { if (window[cbName]) { delete window[cbName]; script.remove(); } }, 10000);
   }
 
-  // Render last 5 records on load
+  function deleteFromSheets(hoja, fila, onDone) {
+    const cbName = 'pg_del_' + Date.now();
+    const params = new URLSearchParams({ action: 'delete', hoja: hoja, fila: fila, callback: cbName });
+    window[cbName] = function(resp) { delete window[cbName]; script.remove(); if (onDone) onDone(resp); };
+    const script = document.createElement('script');
+    script.src = sheetsURL + '?' + params.toString();
+    script.onerror = () => { delete window[cbName]; script.remove(); if (onDone) onDone(null); };
+    document.head.appendChild(script);
+    setTimeout(() => { if (window[cbName]) { delete window[cbName]; script.remove(); if (onDone) onDone(null); } }, 10000);
+  }
+
+  // Render últimos 5 registros al cargar (sin referencia de Sheet — sesión anterior)
   if (records.length) {
-    records.slice(-5).reverse().forEach(r => {
+    records.filter(Boolean).slice(-5).reverse().forEach((r, i) => {
       const desc = r.descripcion || r.material || r.servicio || r.tipo_fijo || r.periodo || r.mes || '';
       const amount = r.monto || r.total_comision || 0;
-      addSavedItem(r.tipo, r.subtipo || '', desc, amount);
+      const realIdx = records.lastIndexOf(r);
+      const itemEl = addSavedItem(r.tipo, r.subtipo || '', desc, amount, realIdx);
+      // Si tiene referencia guardada, restaurarla
+      if (r._sheetFila && r._sheetHoja) {
+        itemEl.dataset.fila = r._sheetFila;
+        itemEl.dataset.hoja = r._sheetHoja;
+      }
     });
   }
 </script>
