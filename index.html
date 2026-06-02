@@ -92,6 +92,34 @@
   .quick-btn:hover { border-color: var(--accent-neg); color: var(--accent-neg); background: rgba(61,214,140,0.08); }
   .quick-btn.selected { border-color: var(--accent-neg); color: var(--accent-neg); background: rgba(61,214,140,0.12); font-weight: 600; }
   @media (max-width: 400px) { .field-row { grid-template-columns: 1fr; } .subtipo-btn { font-size: 9px; } }
+
+  /* ── Analysis Panel ── */
+  .analysis-header { font-size:11px; font-family:'DM Mono',monospace; color:var(--accent-ml); letter-spacing:0.1em; text-transform:uppercase; margin:20px 0 12px; }
+  .analysis-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:4px; }
+  .a-card { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; }
+  .a-card.warn { border-color:rgba(251,146,60,0.35); background:rgba(251,146,60,0.05); }
+  .a-label { font-size:10px; font-family:'DM Mono',monospace; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+  .a-val { font-size:18px; font-weight:800; color:var(--text); letter-spacing:-0.5px; }
+  .a-sub { font-size:10px; color:var(--muted); margin-top:4px; }
+  .a-divider { border:none; border-top:1px solid var(--border); margin:18px 0; }
+  .a-totals { display:flex; flex-direction:column; gap:10px; }
+  .a-total-row { display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+  .a-total-row.big { font-size:15px; font-weight:700; margin-top:4px; }
+  .a-green { color:#3dd68c; font-weight:600; }
+  .a-orange { color:var(--accent-ml); font-weight:600; }
+  .prod-table { display:flex; flex-direction:column; gap:6px; }
+  .prod-row { display:grid; grid-template-columns:2fr 1fr 1fr; font-size:12px; gap:4px; }
+  .prod-head { font-family:'DM Mono',monospace; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:2px; }
+  .ads-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px; }
+  .ads-stat { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 8px; text-align:center; }
+  .ads-stat.warn-stat { border-color:rgba(239,68,68,0.35); background:rgba(239,68,68,0.05); }
+  .ads-val { font-size:16px; font-weight:800; color:var(--text); }
+  .ads-stat.warn-stat .ads-val { color:#f87171; }
+  .ads-lbl { font-size:9px; font-family:'DM Mono',monospace; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:4px; }
+  .ads-verdict { display:flex; gap:12px; background:rgba(251,146,60,0.07); border:1px solid rgba(251,146,60,0.2); border-radius:var(--radius-sm); padding:14px; font-size:12px; line-height:1.6; color:var(--muted); }
+  .ads-verdict strong { color:var(--text); }
+  .verdict-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+
 </style>
 </head>
 <body>
@@ -241,9 +269,108 @@
   </div>
 
   <div class="sub-form" id="ml-form-excel">
-    <div class="coming-soon">
-      <div class="cs-icon">📊</div>
-      <p><span>Importación de Excel ML</span><br><br>Esta función está en construcción.<br>Próximamente podrás subir el Excel<br>exportado de Mercado Libre y los costos<br>se registrarán automáticamente.</p>
+    <div class="analysis-header">Análisis real · Mayo 2026</div>
+    <div class="analysis-grid">
+      <div class="a-card">
+        <div class="a-label">Comisión por venta (21%)</div>
+        <div class="a-val">2.032</div>
+        <div class="a-sub">45 cargos · verificado ✓</div>
+      </div>
+      <div class="a-card">
+        <div class="a-label">Envíos Fulfillment</div>
+        <div class="a-val">3.942</div>
+        <div class="a-sub">43 despachos · 99 base</div>
+      </div>
+      <div class="a-card">
+        <div class="a-label">Almacenamiento Full</div>
+        <div class="a-val">76</div>
+        <div class="a-sub">Decreciente (stock se vendió)</div>
+      </div>
+      <div class="a-card warn">
+        <div class="a-label">Product Ads</div>
+        <div class="a-val">5.580</div>
+        <div class="a-sub">13 días · .975/día prom.</div>
+      </div>
+      <div class="a-card">
+        <div class="a-label">Mi Página</div>
+        <div class="a-val">16.990</div>
+        <div class="a-sub">Fijo mensual</div>
+      </div>
+      <div class="a-card warn">
+        <div class="a-label">Stock antiguo (>6 meses)</div>
+        <div class="a-val">40</div>
+        <div class="a-sub">Cobro único 27/05</div>
+      </div>
+    </div>
+    <div class="a-divider"></div>
+    <div class="a-totals">
+      <div class="a-total-row">
+        <span>Devoluciones aplicadas</span>
+        <span class="a-green">−.081</span>
+      </div>
+      <div class="a-total-row">
+        <span>Total costos ML Mayo</span>
+        <span class="a-orange">11.279</span>
+      </div>
+      <div class="a-total-row">
+        <span>Ingresos brutos Mayo</span>
+        <span>11.748</span>
+      </div>
+      <div class="a-total-row big">
+        <span>Margen bruto estimado</span>
+        <span class="a-green">00.469 · 48,7%</span>
+      </div>
+    </div>
+    <div class="a-divider"></div>
+    <div class="analysis-header" style="margin-top:0">Por producto · Mayo 2026</div>
+    <div class="prod-table">
+      <div class="prod-row prod-head">
+        <span>Producto</span><span>Ventas</span><span>Comisión</span>
+      </div>
+      <div class="prod-row">
+        <span>Cartas 55u (Premium)</span><span>11</span><span>3.716</span>
+      </div>
+      <div class="prod-row">
+        <span>Cartas Brillantes 20u</span><span>22</span><span>4.388</span>
+      </div>
+      <div class="prod-row">
+        <span>Holográficas 20u</span><span>10</span><span>5.568</span>
+      </div>
+      <div class="prod-row">
+        <span>Entrenadores 50u</span><span>7</span><span>4.016</span>
+      </div>
+      <div class="prod-row">
+        <span>Energías 45u</span><span>1</span><span>.048</span>
+      </div>
+      <div class="prod-row">
+        <span>Energías 121u (17%)</span><span>1</span><span>.698</span>
+      </div>
+    </div>
+    <div class="a-divider"></div>
+    <div class="analysis-header" style="margin-top:0">Product Ads · Diagnóstico</div>
+    <div class="ads-grid">
+      <div class="ads-stat">
+        <div class="ads-val">5,48x</div>
+        <div class="ads-lbl">ROAS real</div>
+      </div>
+      <div class="ads-stat">
+        <div class="ads-val">18,23%</div>
+        <div class="ads-lbl">ACOS</div>
+      </div>
+      <div class="ads-stat">
+        <div class="ads-val">43%</div>
+        <div class="ads-lbl">Ventas atribuidas</div>
+      </div>
+      <div class="ads-stat warn-stat">
+        <div class="ads-val">−63%</div>
+        <div class="ads-lbl">vs período ant.</div>
+      </div>
+    </div>
+    <div class="ads-verdict">
+      <div class="verdict-icon">⚠️</div>
+      <div>
+        <strong>ROAS 5,48x está sobre tu objetivo (5x)</strong> — la campaña técnicamente es rentable, pero cayó 63% vs período anterior. El 43% de ventas atribuidas a ads es alto: significa que sin publicidad perderías casi la mitad de tus ventas. El ACOS de 18,23% es aceptable para productos de ticket medio. Recomendación: no bajar presupuesto, pero revisar qué 5 anuncios están activos — probablemente 1-2 concentran todo el resultado.
+      </div>
     </div>
   </div>
 </div>
@@ -704,3 +831,4 @@
 </script>
 </body>
 </html>
+
