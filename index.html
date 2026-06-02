@@ -83,6 +83,14 @@
   .toast-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-ml); flex-shrink: 0; }
   .toast-dot.neg { background: var(--accent-neg); } .toast-dot.per { background: var(--accent-per); } .toast-dot.del { background: #ef4444; }
   .counter { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); background: var(--surface2); border-radius: 20px; padding: 3px 10px; }
+  .quick-btn {
+    font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.06em;
+    padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border);
+    background: var(--surface2); color: var(--muted); cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .quick-btn:hover { border-color: var(--accent-neg); color: var(--accent-neg); background: rgba(61,214,140,0.08); }
+  .quick-btn.selected { border-color: var(--accent-neg); color: var(--accent-neg); background: rgba(61,214,140,0.12); font-weight: 600; }
   @media (max-width: 400px) { .field-row { grid-template-columns: 1fr; } .subtipo-btn { font-size: 9px; } }
 </style>
 </head>
@@ -234,7 +242,22 @@
       <div class="field"><label>Monto total ($)</label><input type="text" inputmode="numeric" id="neg-mat-monto" placeholder="0"></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>Medio de pago</label><select id="neg-mat-pago"><option>Transferencia</option><option>Débito</option><option>Efectivo</option><option>Mercado Pago</option><option>Crédito</option></select></div>
+      <div class="field"><label>Medio de pago</label><select id="neg-mat-pago">
+        <optgroup label="BCI">
+          <option value="BCI · Transferencia">BCI · Transferencia</option>
+          <option value="BCI · Débito">BCI · Débito</option>
+          <option value="BCI · Crédito">BCI · Crédito</option>
+        </optgroup>
+        <optgroup label="Banco Chile">
+          <option value="Banco Chile · Transferencia">Banco Chile · Transferencia</option>
+          <option value="Banco Chile · Débito">Banco Chile · Débito</option>
+          <option value="Banco Chile · Crédito">Banco Chile · Crédito</option>
+        </optgroup>
+        <optgroup label="Otros">
+          <option value="Efectivo">Efectivo</option>
+          <option value="Mercado Pago">Mercado Pago</option>
+        </optgroup>
+      </select></div>
       <div class="field"><label>¿Boleta/Factura?</label><select id="neg-mat-doc"><option>Sí</option><option>No</option></select></div>
     </div>
     <div class="btn-row">
@@ -244,20 +267,44 @@
   </div>
 
   <div class="sub-form" id="neg-form-fijos">
+    <!-- Botones de selección rápida -->
     <div class="field">
-      <label>Servicio</label>
-      <select id="neg-fij-servicio">
-        <option value="">Seleccionar...</option>
-        <option>Internet</option><option>Luz</option><option>Agua</option><option>Plan teléfono</option>
-        <option>Arriendo</option><option>Suscripción / software</option><option>Mantención bicicleta</option><option>Otro servicio fijo</option>
-      </select>
+      <label>Selección rápida</label>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px;">
+        <button type="button" class="quick-btn" onclick="seleccionarFijo('Claude Pro')">Claude Pro</button>
+        <button type="button" class="quick-btn" onclick="seleccionarFijo('Netlify')">Netlify</button>
+        <button type="button" class="quick-btn" onclick="seleccionarFijo('Internet hogar')">Internet hogar</button>
+        <button type="button" class="quick-btn" onclick="seleccionarFijo('Internet móvil')">Internet móvil</button>
+        <button type="button" class="quick-btn" onclick="seleccionarFijo('Mantención bicicleta')">Mantención bici</button>
+        <button type="button" class="quick-btn" onclick="seleccionarFijo('Luz')">Luz</button>
+        <button type="button" class="quick-btn" onclick="seleccionarFijo('Agua')">Agua</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Servicio / Descripción</label>
+      <input type="text" id="neg-fij-servicio" placeholder="Ej: Claude Pro, Netlify, Internet hogar...">
     </div>
     <div class="field-row">
-      <div class="field"><label>Mes</label><input type="text" id="neg-fij-mes" placeholder="Ej: Mayo 2026"></div>
+      <div class="field"><label>Mes</label><input type="text" id="neg-fij-mes" placeholder="Ej: Junio 2026"></div>
       <div class="field"><label>Monto ($)</label><input type="text" inputmode="numeric" id="neg-fij-monto" placeholder="0"></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>Medio de pago</label><select id="neg-fij-pago"><option>Transferencia</option><option>Débito</option><option>Efectivo</option><option>Mercado Pago</option><option>Crédito</option></select></div>
+      <div class="field"><label>Medio de pago</label><select id="neg-fij-pago">
+        <optgroup label="BCI">
+          <option value="BCI · Transferencia">BCI · Transferencia</option>
+          <option value="BCI · Débito">BCI · Débito</option>
+          <option value="BCI · Crédito">BCI · Crédito</option>
+        </optgroup>
+        <optgroup label="Banco Chile">
+          <option value="Banco Chile · Transferencia">Banco Chile · Transferencia</option>
+          <option value="Banco Chile · Débito">Banco Chile · Débito</option>
+          <option value="Banco Chile · Crédito">Banco Chile · Crédito</option>
+        </optgroup>
+        <optgroup label="Otros">
+          <option value="Efectivo">Efectivo</option>
+          <option value="Mercado Pago">Mercado Pago</option>
+        </optgroup>
+      </select></div>
       <div class="field"><label>¿Boleta/Factura?</label><select id="neg-fij-doc"><option>Sí</option><option>No</option></select></div>
     </div>
     <div class="btn-row">
@@ -273,7 +320,22 @@
       <div class="field"><label>Tipo</label><select id="neg-otro-tipo"><option>Variable</option><option>Fijo</option></select></div>
     </div>
     <div class="field-row">
-      <div class="field"><label>Medio de pago</label><select id="neg-otro-pago"><option>Transferencia</option><option>Débito</option><option>Efectivo</option><option>Mercado Pago</option><option>Crédito</option></select></div>
+      <div class="field"><label>Medio de pago</label><select id="neg-otro-pago">
+        <optgroup label="BCI">
+          <option value="BCI · Transferencia">BCI · Transferencia</option>
+          <option value="BCI · Débito">BCI · Débito</option>
+          <option value="BCI · Crédito">BCI · Crédito</option>
+        </optgroup>
+        <optgroup label="Banco Chile">
+          <option value="Banco Chile · Transferencia">Banco Chile · Transferencia</option>
+          <option value="Banco Chile · Débito">Banco Chile · Débito</option>
+          <option value="Banco Chile · Crédito">Banco Chile · Crédito</option>
+        </optgroup>
+        <optgroup label="Otros">
+          <option value="Efectivo">Efectivo</option>
+          <option value="Mercado Pago">Mercado Pago</option>
+        </optgroup>
+      </select></div>
       <div class="field"><label>¿Boleta/Factura?</label><select id="neg-otro-doc"><option>Sí</option><option>No</option></select></div>
     </div>
     <div class="field"><label>Notas (opcional)</label><input type="text" id="neg-otro-notas" placeholder="Observaciones..."></div>
@@ -299,7 +361,22 @@
   <div class="field"><label>Descripción</label><input type="text" id="per-desc" placeholder="Ej: Supermercado Jumbo"></div>
   <div class="field-row">
     <div class="field"><label>Monto ($)</label><input type="text" inputmode="numeric" id="per-monto" placeholder="0"></div>
-    <div class="field"><label>Medio de pago</label><select id="per-pago"><option>Débito</option><option>Efectivo</option><option>Transferencia</option><option>Mercado Pago</option><option>Crédito</option></select></div>
+    <div class="field"><label>Medio de pago</label><select id="per-pago">
+      <optgroup label="BCI">
+        <option value="BCI · Transferencia">BCI · Transferencia</option>
+        <option value="BCI · Débito">BCI · Débito</option>
+        <option value="BCI · Crédito">BCI · Crédito</option>
+      </optgroup>
+      <optgroup label="Banco Chile">
+        <option value="Banco Chile · Transferencia">Banco Chile · Transferencia</option>
+        <option value="Banco Chile · Débito">Banco Chile · Débito</option>
+        <option value="Banco Chile · Crédito">Banco Chile · Crédito</option>
+      </optgroup>
+      <optgroup label="Otros">
+        <option value="Efectivo">Efectivo</option>
+        <option value="Mercado Pago">Mercado Pago</option>
+      </optgroup>
+    </select></div>
   </div>
   <div class="field"><label>¿Necesario?</label><select id="per-nec"><option>Sí</option><option>No</option></select></div>
   <div class="btn-row">
@@ -577,6 +654,12 @@
         itemEl.dataset.hoja = r._sheetHoja;
       }
     });
+  }
+
+  function seleccionarFijo(nombre) {
+    document.getElementById('neg-fij-servicio').value = nombre;
+    document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('selected'));
+    event.target.classList.add('selected');
   }
 </script>
 </body>
